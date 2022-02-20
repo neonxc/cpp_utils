@@ -11,7 +11,6 @@
 #include <cmath>
 #include <compare>
 #include <concepts>
-#include <format>
 #include <iterator>
 #include <limits>
 #include <ranges>
@@ -39,6 +38,7 @@ namespace nxc
 
 #include <boost/hana/fwd/integral_constant.hpp>
 #include <boost/hana/fwd/value.hpp>
+#include <boost/hana/concept/integral_constant.hpp>
 
 namespace nxc
 {
@@ -382,7 +382,13 @@ namespace nxc
     [](std::kilo) { return 'k'; },
     [](std::mega) { return 'M'; }
   };
+}
 
+#if __has_include(<format>)
+#include <format>
+
+namespace nxc
+{
   template <std::integral I, std::ranges::output_range<const char&> Range>
     requires std::ranges::forward_range<Range>
   void to_significant_chars(const I number, Range& buffer)
@@ -410,7 +416,11 @@ namespace nxc
 
     std::format_to_n(begin(buffer), size(buffer), ":-(\0"sv);
   }
+}
+#endif
 
+namespace nxc
+{
   template <typename T>
   concept integral_or_enum = std::integral<T> || std::is_enum_v<T>;
 
