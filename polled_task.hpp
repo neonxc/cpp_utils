@@ -1,4 +1,6 @@
 // custom coroutine infrastructure providing nesting and execution via operator()
+// heavily inspired by Lewis Baker cppcoro library (https://github.com/lewissbaker/cppcoro)
+
 // example of use:
 //
 //  struct A
